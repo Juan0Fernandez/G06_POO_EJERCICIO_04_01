@@ -15,7 +15,7 @@ public class ControladorAsignatura {
                 return false;
             }
             return true;
-        }catch(NumberFormatException e1) {
+        } catch (NumberFormatException e1) {
             throw new NumberFormatException("Error al convertir el formato");
         }
 
@@ -29,15 +29,19 @@ public class ControladorAsignatura {
     }
 
     public boolean anadirAsignatura(String cod, String nom, int niv, int cred, int numEst) {
+        try {
+            if (validarNumeros(cred, numEst, niv) && validarInfo(cod, nom)) {
+                asigServImpl.anadirAsignatura(new Asignatura(cod, nom, niv, cred, numEst));
+                return true;
+            } else {
 
-        if (validarNumeros(cred, numEst, niv) && validarInfo(cod, nom)) {
-            asigServImpl.anadirAsignatura(new Asignatura(cod, nom, niv, cred, numEst));
-            return true;
-        } else {
-
-            System.err.println("Datos mal ingresados");
-            return false;
+                System.err.println("Datos mal ingresados");
+                return false;
+            }
+        } catch (NumberFormatException e1) {
+            throw new NumberFormatException("Error al convertir el formato");
         }
+
     }
 
     public void borrarAsignatura(int i) {
@@ -45,13 +49,18 @@ public class ControladorAsignatura {
     }
 
     public boolean modificarAsignatura(int i, String cod, String nom, int niv, int cred, int numEst) {
-        if (validarNumeros(cred, numEst, niv) && validarInfo(cod, nom)) {
-            asigServImpl.modificarAsignatura(i, new Asignatura(cod, nom, niv, cred, numEst));
-            return true;
-        } else {
-            System.err.println("Datos mal ingresados");
-            return false;
+        try {
+            if (validarNumeros(cred, numEst, niv) && validarInfo(cod, nom)) {
+                asigServImpl.modificarAsignatura(i, new Asignatura(cod, nom, niv, cred, numEst));
+                return true;
+            } else {
+                System.err.println("Datos mal ingresados");
+                return false;
+            }
+        }catch (NumberFormatException e1) {
+            throw new NumberFormatException("Error al convertir el formato");
         }
+
     }
 
     public ArrayList<Asignatura> getLista() {
