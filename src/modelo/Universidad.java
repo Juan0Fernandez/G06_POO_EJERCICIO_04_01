@@ -4,11 +4,11 @@ package modelo;
 public class Universidad {
     private String nomb;
     private String cuidad;
-    private String tlf;
+    private int tlf;
     private String dir;
     private String tipo;
 
-    public Universidad(String nomb, String cuidad, String tlf, String dir, String tipo) {
+    public Universidad(String nomb, String cuidad, int tlf, String dir, String tipo) {
         this.nomb = nomb;
         this.cuidad = cuidad;
         this.tlf = tlf;
@@ -32,11 +32,11 @@ public class Universidad {
         this.cuidad = cuidad;
     }
 
-    public String getTlf() {
+    public int getTlf() {
         return tlf;
     }
 
-    public void setTlf(String tlf) {
+    public void setTlf(int tlf) {
         this.tlf = tlf;
     }
 

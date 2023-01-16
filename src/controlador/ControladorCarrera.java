@@ -16,12 +16,13 @@ public class ControladorCarrera {
     private boolean validarDuracion(int d) {
         try {
             if (d <= 0) {
-
+                
                 return false;
             }
             return true;
         } catch (NumberFormatException e1) {
-            throw new NumberFormatException("Error al convertir el formato"+ e1);
+            throw new NumberFormatException("Error al convertir el formato"+ e1.toString());
+                
         }
 
     }
@@ -38,6 +39,7 @@ public class ControladorCarrera {
     public boolean anadirCarrera(String cod, String nom, int d, String mod, String tit) {
         try {
             if (validarDuracion(d) && validarInfo(cod, nom, mod, tit)) {
+                
                 carrServiceImpl.anadirCarrera(new Carrera(cod, nom, d, mod, tit));
                 return true;
             } else {
@@ -46,7 +48,7 @@ public class ControladorCarrera {
                 return false;
             }
         } catch (NumberFormatException e1) {
-            throw new NumberFormatException("Error al convertir el formato");
+            throw new NumberFormatException("Error al convertir el formato"+e1.toString());
         }
 
     }

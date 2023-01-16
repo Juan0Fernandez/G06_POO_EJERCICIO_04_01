@@ -8,17 +8,22 @@ public class ControladorUniversidad {
 
     private UniversidadServiceImpl uniServiceImpl = new UniversidadServiceImpl();
 
-    private boolean validarTelefono(String tlf) {
-        if (tlf.length() == 0) {
-            return false;
-        }
-        for (int i = 0; i < tlf.length(); i++) {
-            if (tlf.charAt(i) > '9' || tlf.charAt(i) < '0') {
-                System.err.println("Numero invalido");
+    private boolean validarTelefono(int tlf) {
+        try {
+            if (tlf == 0) {
                 return false;
             }
+            for (int i = 0; i < tlf; i++) {
+                if (tlf > '9' || tlf < '0') {
+                    System.err.println("Numero invalido");
+                    return false;
+                }
+            }
+            return true;
+        }catch (NumberFormatException e1) {
+            throw new NumberFormatException("Error al convertir el formato" + e1.toString());
         }
-        return true;
+
     }
 
     private boolean validarInfo(String nom, String dir, String ciudad, String tipo) {
@@ -28,13 +33,18 @@ public class ControladorUniversidad {
         return true;
     }
 
-    public boolean anadirUniversidad(String nomb, String cuidad, String tlf, String dir, String tipo) {
-        if (validarTelefono(tlf) && validarInfo(nomb, dir, cuidad, tipo)) {
-            uniServiceImpl.anadirUniversidad(new Universidad(nomb, cuidad, tlf, dir, tipo));
-            return true;
-        } else {
-            System.err.println("Datos mal ingresados");
-            return false;
+    public boolean anadirUniversidad(String nomb, String cuidad, int tlf, String dir, String tipo)  {
+        try {
+            if (validarTelefono(tlf) && validarInfo(nomb, dir, cuidad, tipo)) {
+                uniServiceImpl.anadirUniversidad(new Universidad(nomb, cuidad, tlf, dir, tipo));
+                return true;
+            } else {
+                System.err.println("Datos mal ingresados");
+                return false;
+            }
+
+        } catch (NumberFormatException e1) {
+            throw new NumberFormatException("Error al convertir el formato" + e1.toString());
         }
 
     }
@@ -47,7 +57,7 @@ public class ControladorUniversidad {
         return uniServiceImpl.getLista();
     }
 
-    public boolean modificarUniversidad(int i, String nomb, String cuidad, String tlf, String dir, String tipo) {
+    public boolean modificarUniversidad(int i, String nomb, String cuidad, int tlf, String dir, String tipo) {
         try {
             if (validarTelefono(tlf) && validarInfo(nomb, dir, cuidad, tipo)) {
                 uniServiceImpl.modificarUniversidad(i, new Universidad(nomb, cuidad, tlf, dir, tipo));
@@ -56,8 +66,8 @@ public class ControladorUniversidad {
                 System.err.println("Datos mal ingresados");
                 return false;
             }
-        }catch(NumberFormatException e1) {
-            throw new NumberFormatException("Error al convertir el formato"+ e1);
+        } catch (NumberFormatException e1) {
+            throw new NumberFormatException("Error al convertir el formato" + e1.toString());
         }
 
     }

@@ -1,4 +1,3 @@
-
 package vista;
 
 import controlador.ControladorUniversidad;
@@ -11,22 +10,22 @@ public class VentanaUniversidad extends javax.swing.JInternalFrame {
 
     DefaultTableModel mod = new DefaultTableModel();
     private ControladorUniversidad cntrlUni = new ControladorUniversidad();
-    
+
     public VentanaUniversidad() {
         initComponents();
         this.setIconifiable(true);
         this.setIgnoreRepaint(true);
         this.setClosable(true);
         this.setResizable(true);
-        this.setSize(880,620);
+        this.setSize(880, 620);
         llenarCiudad();
         iniciarTabla();
-        
+
         btnGrupo.add(rbPrivada);
         btnGrupo.add(rbPublica);
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         txtNombre.setText("");
         txtDir.setText("");
         txtTlf.setText("");
@@ -34,28 +33,29 @@ public class VentanaUniversidad extends javax.swing.JInternalFrame {
         rbPublica.setSelected(false);
         cmbCiudad.setSelectedIndex(0);
     }
-    
-    public void llenarCiudad(){
-        String[] ciudades={"Cuenca", "Guayaquil", "Quito", "Ambato"};
+
+    public void llenarCiudad() {
+        String[] ciudades = {"Cuenca", "Guayaquil", "Quito", "Ambato"};
         cmbCiudad.setModel(new javax.swing.DefaultComboBoxModel<>(ciudades));
     }
-    
-    public void iniciarTabla(){
-        
-        String[] titulos={"Nombre", "Ciudad", "Telefono", "Direccion", "Tipo"};
+
+    public void iniciarTabla() {
+
+        String[] titulos = {"Nombre", "Ciudad", "Telefono", "Direccion", "Tipo"};
         mod.setColumnIdentifiers(titulos);
         tblLista.setModel(mod);
     }
-    
-    public void actualizarTabla(ArrayList<Universidad> lstu){
+
+    public void actualizarTabla(ArrayList<Universidad> lstu) {
         mod = new DefaultTableModel();
-        String[] titulos={"Nombre", "Ciudad", "Telefono", "Direccion", "Tipo"};
+        String[] titulos = {"Nombre", "Ciudad", "Telefono", "Direccion", "Tipo"};
         mod.setColumnIdentifiers(titulos);
-        for (Universidad u: lstu) {
-            mod.addRow(new Object[]{u.getNomb(),u.getCuidad(), u.getTlf(), u.getDir(), u.getTipo()});
+        for (Universidad u : lstu) {
+            mod.addRow(new Object[]{u.getNomb(), u.getCuidad(), u.getTlf(), u.getDir(), u.getTipo()});
         }
         tblLista.setModel(mod);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,6 +128,12 @@ public class VentanaUniversidad extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Telefono");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
+
+        txtTlf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTlfActionPerformed(evt);
+            }
+        });
         jPanel1.add(txtTlf, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 200, -1));
 
         jLabel5.setText("Direccion");
@@ -180,81 +186,90 @@ public class VentanaUniversidad extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListaMouseClicked
-        txtNombre.setText(tblLista.getValueAt(tblLista.getSelectedRow(), 0)+"");
-        txtTlf.setText(tblLista.getValueAt(tblLista.getSelectedRow(), 2)+"");
-        txtDir.setText(tblLista.getValueAt(tblLista.getSelectedRow(), 3)+"");
-        if((tblLista.getValueAt(tblLista.getSelectedRow(), 4)+"").equals("Privada")){
+        txtNombre.setText(tblLista.getValueAt(tblLista.getSelectedRow(), 0) + "");
+        txtTlf.setText(tblLista.getValueAt(tblLista.getSelectedRow(), 2) + "");
+        txtDir.setText(tblLista.getValueAt(tblLista.getSelectedRow(), 3) + "");
+        if ((tblLista.getValueAt(tblLista.getSelectedRow(), 4) + "").equals("Privada")) {
             rbPrivada.setSelected(true);
             rbPublica.setSelected(false);
-        }else{
+        } else {
             rbPrivada.setSelected(false);
             rbPublica.setSelected(true);
         }
-        
+
         for (int i = 0; i < cmbCiudad.getItemCount(); i++) {
-            String c=cmbCiudad.getItemAt(i)+"";
-            if(c.equals(tblLista.getValueAt(tblLista.getSelectedRow(), 1)+"")){
+            String c = cmbCiudad.getItemAt(i) + "";
+            if (c.equals(tblLista.getValueAt(tblLista.getSelectedRow(), 1) + "")) {
                 cmbCiudad.setSelectedIndex(i);
             }
         }
     }//GEN-LAST:event_tblListaMouseClicked
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-
-        String n="",c="",t="", tlf="", dir="";
-        n=txtNombre.getText();
-        c=(String) cmbCiudad.getSelectedItem();
-        if(rbPrivada.isSelected()){
-            t="Privada";
-        }else if(rbPublica.isSelected()){
-            t="Publica";
+        int tlf;
+        String n = "", c = "", t = "", dir = "";
+        n = txtNombre.getText();
+        c = (String) cmbCiudad.getSelectedItem();
+        if (rbPrivada.isSelected()) {
+            t = "Privada";
+        } else if (rbPublica.isSelected()) {
+            t = "Publica";
         }
-        tlf=txtTlf.getText();
-        dir=txtDir.getText();
-
-        if(cntrlUni.anadirUniversidad(n, c, tlf, dir, t)){
-            actualizarTabla(cntrlUni.getLista());
-            JOptionPane.showMessageDialog(null, "Se añadio con exito","Añadido", JOptionPane.INFORMATION_MESSAGE);
-            limpiar();
-        }else{
-            JOptionPane.showMessageDialog(null, "No se pudo crear la Universidad.","Error", JOptionPane.ERROR_MESSAGE);
+        tlf = 0;
+        dir = txtDir.getText();
+        try {
+            if (cntrlUni.anadirUniversidad(n, c, tlf, dir, t)) {
+                actualizarTabla(cntrlUni.getLista());
+                JOptionPane.showMessageDialog(null, "Se añadio con exito", "Añadido", JOptionPane.INFORMATION_MESSAGE);
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo crear la Universidad.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e1) {
+            throw new NumberFormatException("Error al convertir el formato"+e1.toString());
         }
+
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int i = tblLista.getSelectedRow();
-        if(i!=-1){
+        if (i != -1) {
             cntrlUni.borrarUniversidad(i);
             actualizarTabla(cntrlUni.getLista());
-            JOptionPane.showMessageDialog(null, "Se elimino con exito","Eliminado", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Se elimino con exito", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
             limpiar();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento para eliminar","Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         int i = tblLista.getSelectedRow();
-        String n="",c="",t="", tlf="", dir="";
-        n=txtNombre.getText();
-        c=(String) cmbCiudad.getSelectedItem();
-        t="";
-        if(rbPrivada.isSelected()){
-            t="Privada";
-        }else if(rbPublica.isSelected()){
-            t="Publica";
+        String n = "", c = "", t = "", dir = "";
+        int tlf;
+        n = txtNombre.getText();
+        c = (String) cmbCiudad.getSelectedItem();
+        t = "";
+        if (rbPrivada.isSelected()) {
+            t = "Privada";
+        } else if (rbPublica.isSelected()) {
+            t = "Publica";
         }
-        tlf=txtTlf.getText();
-        dir=txtDir.getText();
-        if(i!=-1){
+        tlf = 0;
+        dir = txtDir.getText();
+        if (i != -1) {
             cntrlUni.modificarUniversidad(i, n, c, tlf, dir, t);
             actualizarTabla(cntrlUni.getLista());
-            JOptionPane.showMessageDialog(null, "Se modifico con exito","Modificado", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Se modifico con exito", "Modificado", JOptionPane.INFORMATION_MESSAGE);
             limpiar();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento para modificar","Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento para modificar", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void txtTlfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTlfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTlfActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
