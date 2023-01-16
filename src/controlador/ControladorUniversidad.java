@@ -57,7 +57,7 @@ public class ControladorUniversidad {
                 return false;
             }
         }catch(NumberFormatException e1) {
-            throw new NumberFormatException("Error al convertir el formato");
+            throw new NumberFormatException("Error al convertir el formato"+ e1);
         }
 
     }

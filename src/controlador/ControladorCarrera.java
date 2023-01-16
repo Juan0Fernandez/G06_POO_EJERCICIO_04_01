@@ -11,7 +11,7 @@ import servicio.CarreraServiceImpl;
 
 public class ControladorCarrera {
 
-    private CarreraServiceImpl carrServiceImpl = new CarreraServiceImpl();
+     private CarreraServiceImpl carrServiceImpl = new CarreraServiceImpl();
 
     private boolean validarDuracion(int d) {
         try {
@@ -21,7 +21,7 @@ public class ControladorCarrera {
             }
             return true;
         } catch (NumberFormatException e1) {
-            throw new NumberFormatException("Error al convertir el formato");
+            throw new NumberFormatException("Error al convertir el formato"+ e1);
         }
 
     }
